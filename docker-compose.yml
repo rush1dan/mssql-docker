@@ -1,0 +1,24 @@
+volumes:
+  sqlserver_data:
+  
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${Sa_Password:-goku1234}
+      - MSSQL_PID=Developer
+    ports:
+      - 1433:1433
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: always
+
+
+### To interact with the DB
+### docker exec -it mssql_container /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P <password>
+### or
+### docker compose exec sqlserver sh and in the bash terminal enter /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P <password>
+### Once in, for querying the databases do
+### SELECT name FROM sys.databases;
+### GO 
